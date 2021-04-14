@@ -1,0 +1,12 @@
+.fs {
+    font-size: 10px;
+    padding: 1px 5px;
+}
+
+img {
+    width: 30px;
+    height: 30px;
+}
+.bg-gray {
+    background-color: #e9ecef;
+}
