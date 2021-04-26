@@ -3,7 +3,8 @@ const countrySelected = document.querySelector('.country-selected');
 const confirmed = document.querySelector('.confirmed');
 const recovered = document.querySelector('.recovered');
 const deaths = document.querySelector('.deaths');
-let countryName = document.querySelector('.search-country');
+const countryName = document.querySelector('.search-country');
+let countryNameString = '';
 const modalRecovered = document.querySelector('.modal-recovered');
 const modalDeaths = document.querySelector('.modal-deaths');
 const modalConfirmed = document.querySelector('.modal-confirmed');
@@ -14,13 +15,13 @@ const tableBody = document.querySelector('.table-body');
 
 // Searched Country
 searchedButton.addEventListener('click', function () {
-  countryName = countryName.value;
+  countryNameString = countryName.value;
   searchCountryFetch();
 })
 
 // Searched country-fetch
 searchCountryFetch = () => {
-  const urlCountryByName = `https://covid-api.mmediagroup.fr/v1/cases?country=${countryName}`;
+  const urlCountryByName = `https://covid-api.mmediagroup.fr/v1/cases?country=${countryNameString}`;
 
   fetch(urlCountryByName)
     .then((resp) => resp.json())
@@ -35,7 +36,7 @@ searchCountryFetch = () => {
 
 // Showing searched country flag and cards
 cardsFlagCountryName = (data) => {
-  countrySelected.innerHTML = countryName;
+  countrySelected.innerHTML = countryNameString;
   const flag = `${data.All.abbreviation}`;
   const img = document.createElement('img');
   img.src = `https://www.countryflags.io/${flag}/flat/64.png`;
@@ -48,7 +49,7 @@ cardsFlagCountryName = (data) => {
 // Modal-Help Function
 modalHelpFunc = (data) => {
   const modalTitle = document.querySelector('.modal-title');
-  modalTitle.innerHTML = `${countryName}`;
+  modalTitle.innerHTML = `${countryNameString}`;
   modalRecovered.innerHTML = `Recovered | ${data.All.confirmed}`;
   modalDeaths.innerHTML = `Deaths | ${data.All.deaths}`;
   modalConfirmed.innerHTML = `Confirmed | ${data.All.confirmed}`;
@@ -65,7 +66,7 @@ arrowButton.forEach((element) => {
 
 // Fetch History Death-Modal
 historyDeathModalFetch = () => {
-  const urlHistoryDeath = `https://covid-api.mmediagroup.fr/v1/history?country=${countryName}&status=deaths`;
+  const urlHistoryDeath = `https://covid-api.mmediagroup.fr/v1/history?country=${countryNameString}&status=deaths`;
   fetch(urlHistoryDeath).then((resp) => resp.json())
     .then(function (data) {
       deathsYesterday.innerHTML = `<p class="m-0 py-2"> <strong>${date()}</strong></p><p>${data.All.dates[date()]}</p>`;
@@ -77,7 +78,7 @@ historyDeathModalFetch = () => {
 
 // Fetch History Confirmed-Modal
 histiryConfirmedModalFetch = () => {
-  const urlHistoryConfirmed = `https://covid-api.mmediagroup.fr/v1/history?country=${countryName}&status=confirmed`;
+  const urlHistoryConfirmed = `https://covid-api.mmediagroup.fr/v1/history?country=${countryNameString}&status=confirmed`;
   fetch(urlHistoryConfirmed).then((resp) => resp.json())
     .then(function (data) {
       confirmedYesterday.innerHTML = `<p class="m-0 py-2"> <strong>${date()}</strong></p><p>${data.All.dates[date()]}</p>`;
